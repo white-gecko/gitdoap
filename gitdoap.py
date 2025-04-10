@@ -17,7 +17,7 @@ def doapit(repo_url: str) -> Graph | None:
         return githubdoap(repo_url)
     return None
 
-def normalize_github(repo_url: str, base_url: str = "https://github.com/") -> tuple(str, str):
+def normalize_github(repo_url: str, base_url: str = "https://github.com/") -> tuple[str, str]:
     """Normalize the repo_url an return it together with the repository name."""
     repo_url = repo_url.removesuffix(".git")
     repo_url = repo_url.removeprefix("https://")
