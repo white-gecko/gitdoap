@@ -14,7 +14,7 @@ def doapit(repo_url: str) -> Graph | None:
     """Return a Graph with a DOAP or None, if nothing could be found or it is unsupported."""
     parsed = urlparse(repo_url)
     if parsed.hostname == "github.com":
-        return githubdoap(repo_url)
+        return github_doap(repo_url)
     return None
 
 def normalize_github(repo_url: str, base_url: str = "https://github.com/") -> tuple[str, str]:
