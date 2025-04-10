@@ -1,6 +1,7 @@
 from rdflib import Graph, URIRef, Literal, RDF, RDFS, DOAP, DCTERMS as DCT, FOAF
 from rdflib.namespace import Namespace
 from github import Github
+from urllib.parse import urlparse
 
 # Semantically-Interlinked Online Communities
 # https://www.w3.org/submissions/sioc-spec/
@@ -9,13 +10,25 @@ SIOC = Namespace("http://rdfs.org/sioc/ns#")
 # Semantically-Interlinked Online Developer Communities
 SIODC = Namespace("https://siodc.example.org/#")
 
-def githubdoap(repo_url, base_url = "https://github.com/"):
-    # Normalize the repo_url
+def doapit(repo_url: str) -> Graph | None:
+    """Return a Graph with a DOAP or None, if nothing could be found or it is unsupported."""
+    parsed = urlparse(repo_url)
+    if parsed.hostname == "github.com":
+        return githubdoap(repo_url)
+    return None
+
+def normalize_github(repo_url: str, base_url: str = "https://github.com/") -> tuple(str, str):
+    """Normalize the repo_url an return it together with the repository name."""
     repo_url = repo_url.removesuffix(".git")
     repo_url = repo_url.removeprefix("https://")
     repo_url = repo_url.removeprefix("http://")
     repo_url = f"https://{repo_url}"
     repo_name = repo_url.removeprefix(base_url)
+    return repo_url, repo_name
+
+def github_doap(repo_url: str, base_url: str = "https://github.com/") -> Graph:
+    """Construct a description from based on the results from the GitHub API."""
+    repo_url, repo_name = normalize_github(repo_url, base_url)
 
     gh = Github()
     repo = gh.get_repo(repo_name)
