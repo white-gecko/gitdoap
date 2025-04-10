@@ -1,0 +1,6 @@
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+
+<https://github.com/white-gecko/gitdoap> a doap:Project ;
+    doap:name "GitDOAP" ;
+    doap:description "A small python library to generate a description of a project (doap) from a git repository." ;
+    doap:developer <https://github.com/white-gecko>, <https://natanael.arndt.xyz/#i> .
