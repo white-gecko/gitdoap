@@ -41,7 +41,7 @@ def github_doap(repo_url: str, base_url: str = "https://github.com/") -> Graph:
         return None
 
     auth = None
-    if 'GH_TOKEN' in os.environ:
+    if 'GH_TOKEN' in os.environ and os.environ['GH_TOKEN']:
         auth = Token(os.environ['GH_TOKEN'])
     gh = Github(auth=auth)
     try:
